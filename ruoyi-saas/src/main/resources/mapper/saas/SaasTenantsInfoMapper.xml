@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.saas.mapper.SaasTenantsInfoMapper">
+    
+    <resultMap type="SaasTenantsInfo" id="SaasTenantsInfoResult">
+        <result property="dbUser"    column="db_user"    />
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="dbUrl"    column="db_url"    />
+        <result property="dbName"    column="db_name"    />
+        <result property="dbPassword"    column="db_password"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSaasTenantsInfoVo">
+        select db_user, id, code, name, db_url, db_name, db_password, status, del_flag, create_by, create_time, update_by, update_time from saas_tenants_info
+    </sql>
+
+    <select id="selectSaasTenantsInfoList" parameterType="SaasTenantsInfo" resultMap="SaasTenantsInfoResult">
+        <include refid="selectSaasTenantsInfoVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code like concat('%', #{code}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSaasTenantsInfoById" parameterType="Integer" resultMap="SaasTenantsInfoResult">
+        <include refid="selectSaasTenantsInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSaasTenantsInfo" parameterType="SaasTenantsInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into saas_tenants_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dbUser != null and dbUser != ''">db_user,</if>
+            <if test="code != null and code != ''">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="dbUrl != null and dbUrl != ''">db_url,</if>
+            <if test="dbName != null and dbName != ''">db_name,</if>
+            <if test="dbPassword != null and dbPassword != ''">db_password,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null and updateBy != ''">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dbUser != null and dbUser != ''">#{dbUser},</if>
+            <if test="code != null and code != ''">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="dbUrl != null and dbUrl != ''">#{dbUrl},</if>
+            <if test="dbName != null and dbName != ''">#{dbName},</if>
+            <if test="dbPassword != null and dbPassword != ''">#{dbPassword},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSaasTenantsInfo" parameterType="SaasTenantsInfo">
+        update saas_tenants_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dbUser != null and dbUser != ''">db_user = #{dbUser},</if>
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="dbUrl != null and dbUrl != ''">db_url = #{dbUrl},</if>
+            <if test="dbName != null and dbName != ''">db_name = #{dbName},</if>
+            <if test="dbPassword != null and dbPassword != ''">db_password = #{dbPassword},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSaasTenantsInfoById" parameterType="Integer">
+        delete from saas_tenants_info where id = #{id}
+    </delete>
+
+    <delete id="deleteSaasTenantsInfoByIds" parameterType="String">
+        delete from saas_tenants_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
